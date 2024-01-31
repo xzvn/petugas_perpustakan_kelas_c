@@ -6,6 +6,7 @@ import 'package:petugas_perpustakaan_kelas_c/app/data/constant/endpoint.dart';
 import 'package:petugas_perpustakaan_kelas_c/app/data/provider/api_provider.dart';
 import 'package:petugas_perpustakaan_kelas_c/app/data/provider/storage_provider.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:petugas_perpustakaan_kelas_c/app/modules/book/controllers/book_controller.dart';
 import 'package:petugas_perpustakaan_kelas_c/app/routes/app_pages.dart';
 
 class AddBookController extends GetxController {
@@ -19,6 +20,7 @@ class AddBookController extends GetxController {
   //TODO: Implement AddBookController
 
   final count = 0.obs;
+  final BookController _bookController = Get.find();
 
   @override
   void onInit() {
@@ -46,10 +48,10 @@ class AddBookController extends GetxController {
           "judul": judulController.text.toString(),
           "penulis": penulisController.text.toString(),
           "penerbit": penerbitController.text.toString(),
-          "tahun terbit": int.parse(tahunterbitController.text.toString()),
+          "tahun_terbit": int.parse(tahunterbitController.text.toString()),
         });
         if (response.statusCode == 201) {
-          await StorageProvider.write(StorageKey.status, "logged");
+          _bookController.getData();
           Get.back();
         } else {
           Get.snackbar("Sorry", "Login Gagal", backgroundColor: Colors.orange);
